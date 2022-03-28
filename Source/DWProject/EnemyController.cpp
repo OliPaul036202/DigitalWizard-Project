@@ -15,6 +15,7 @@ AEnemyController::AEnemyController()
 
 	BehaviorTreeComponent = CreateDefaultSubobject<UBehaviorTreeComponent>(TEXT("BehaviourTreeComp"));
 	check(BehaviorTreeComponent);
+	
 }
 
 void AEnemyController::OnPossess(APawn* InPawn)
