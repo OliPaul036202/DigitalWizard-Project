@@ -16,7 +16,7 @@ public:
 	AEnemyThrowable();
 
 	/** Sphere Component */
-	UPROPERTY(VisibleAnywhere, Category = "Component")
+	UPROPERTY(EditAnywhere, Category = "Component")
 	class USphereComponent* SphereComponent;
 
 	/** Static Mesh */

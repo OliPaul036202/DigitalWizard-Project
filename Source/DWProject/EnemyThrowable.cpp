@@ -6,6 +6,7 @@
 #include "MainCharacter.h"
 #include "CollisionAnalyzer/Public/ICollisionAnalyzer.h"
 #include "Components/SphereComponent.h"
+#include "Physics/ImmediatePhysics/ImmediatePhysicsShared/ImmediatePhysicsCore.h"
 
 // Sets default values
 AEnemyThrowable::AEnemyThrowable()
@@ -29,7 +30,7 @@ void AEnemyThrowable::BeginPlay()
 	Super::BeginPlay();
 
 	SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &AEnemyThrowable::SphereComponentOnBeginOverlap);
-	
+	StaticMeshComponent->SetWorldLocation(SphereComponent->GetComponentLocation());
 	
 }
 
@@ -37,13 +38,6 @@ void AEnemyThrowable::BeginPlay()
 void AEnemyThrowable::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	if(bCanChase)
-	{
-		//Throw object towards the general direction of the player... :)
-		FVector TargetLoc = MainCharacter->GetActorLocation();
-		
-	}
 }
 
 void AEnemyThrowable::SphereComponentOnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
@@ -55,7 +49,9 @@ void AEnemyThrowable::SphereComponentOnBeginOverlap(UPrimitiveComponent* Overlap
 		MainCharacter = Cast<AMainCharacter>(OtherActor);
 		if(MainCharacter)
 		{
-			bCanChase = true;
+			//Throw object towards the general direction of the player... :)
+			FVector TargetLoc = MainCharacter->GetActorLocation();
+			StaticMeshComponent->AddImpulse(TargetLoc * 1000.0f);
 		}
 	}
 }

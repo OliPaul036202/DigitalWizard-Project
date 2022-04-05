@@ -62,10 +62,15 @@ void AEnemy::BasicAttack()
 {
 		if(bCanAttack)
 		{
-			FActorSpawnParameters SpawnInfo;
-			EnemyThrowable = GetWorld()->SpawnActor<AEnemyThrowable>(AEnemyThrowable::StaticClass(), GetActorLocation(), GetActorRotation(), SpawnInfo);
+			SpawnThrowable();
 			bCanAttack = false;
 		}
+}
+
+void AEnemy::SpawnThrowable()
+{
+	FVector SpawnPoint = GetActorLocation();
+	GetWorld()->SpawnActor(EnemyThrowable, &SpawnPoint);
 }
 
 void AEnemy::AggroSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
@@ -82,6 +87,8 @@ void AEnemy::AggroSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, A
 				EnemyController = Cast<AEnemyController>(GetController());
 			}
 			EnemyController->GetBlackboard()->SetValueAsObject(TEXT("TargetActor"), Main);
+			bCanAttack = true;
+			BasicAttack();
 		}
 	}
 }

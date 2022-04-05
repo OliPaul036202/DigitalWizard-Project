@@ -40,11 +40,14 @@ public:
 	USphereComponent* AttackSphere;
 
 	/** Attacking player components */
-	UPROPERTY(VisibleAnywhere, Category = "Attacking")
+	UPROPERTY(VisibleAnywhere, Category = "Attacking Properties")
 	bool bCanAttack;
 
-	UPROPERTY(EditAnywhere, Category = "Attacking")
-	class AEnemyThrowable* EnemyThrowable;
+	UPROPERTY(EditAnywhere, Category = "Attacking Properties")
+	UClass* EnemyThrowable;
+
+	UPROPERTY(EditAnywhere, Category = "Attacking Properties")
+	float SpawnInterval;
 
 protected:
 	// Called when the game starts or when spawned
@@ -59,6 +62,9 @@ public:
 
 	UFUNCTION()
 	void BasicAttack();
+
+	UFUNCTION()
+	void SpawnThrowable();
 	
 	UFUNCTION()
 	virtual void AggroSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
