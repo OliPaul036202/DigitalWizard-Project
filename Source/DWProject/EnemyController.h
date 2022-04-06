@@ -20,7 +20,7 @@ public:
 	virtual void OnPossess(APawn* InPawn) override;
 	
 	UBlackboardComponent* GetBlackboard();
-
+	
 protected:
 	
 	UPROPERTY(BlueprintReadWrite, Category = "Behaviour")
