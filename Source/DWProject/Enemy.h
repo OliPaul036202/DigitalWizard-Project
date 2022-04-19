@@ -31,6 +31,7 @@ public:
 	FVector PatrolPoint4;
 
 	class AEnemyController* EnemyController;
+	
 
 	/** Aggro & Attack Components */
 	UPROPERTY(VisibleAnywhere, Category = "BehaviourTree")
@@ -39,16 +40,13 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "BehaviourTree")
 	USphereComponent* AttackSphere;
 
-	/** Attacking player components */
+	/** Attacking player components and VFX */
 	UPROPERTY(VisibleAnywhere, Category = "Attacking Properties")
-	bool bCanAttack;
+	bool bCanExplode;
 
-	UPROPERTY(EditAnywhere, Category = "Attacking Properties")
-	UClass* EnemyThrowable;
-
-	UPROPERTY(EditAnywhere, Category = "Attacking Properties")
-	float SpawnInterval;
-
+	UPROPERTY(EditAnywhere, Category = "VFX")
+	UParticleSystemComponent* ExplosionVFX;
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -61,10 +59,8 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION()
-	void BasicAttack();
-
-	UFUNCTION()
-	void SpawnThrowable();
+	void ExplodeAttack();
+	
 	
 	UFUNCTION()
 	virtual void AggroSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,

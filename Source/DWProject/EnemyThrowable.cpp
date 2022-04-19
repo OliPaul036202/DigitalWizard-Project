@@ -6,7 +6,7 @@
 #include "MainCharacter.h"
 #include "CollisionAnalyzer/Public/ICollisionAnalyzer.h"
 #include "Components/SphereComponent.h"
-#include "Physics/ImmediatePhysics/ImmediatePhysicsShared/ImmediatePhysicsCore.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AEnemyThrowable::AEnemyThrowable()
@@ -14,14 +14,22 @@ AEnemyThrowable::AEnemyThrowable()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+	RootComponent = StaticMeshComponent;
+	
 	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
 	SphereComponent->SetupAttachment(GetRootComponent());
+	
+	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComp"));
 
-	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-	StaticMeshComponent->SetupAttachment(GetRootComponent());
+	ProjectileMovementComponent->InitialSpeed = 400.0f;
+	ProjectileMovementComponent->MaxSpeed = 0.0f;
+	ProjectileMovementComponent->bRotationFollowsVelocity = true;
+	ProjectileMovementComponent->bShouldBounce = false;
+	ProjectileMovementComponent->bInitialVelocityInLocalSpace = true;
+	ProjectileMovementComponent->HomingAccelerationMagnitude = 500.0f;
+	ProjectileMovementComponent->bIsHomingProjectile = true;
 
-	// Initialise
-	bCanChase = false;
 }
 
 // Called when the game starts or when spawned
@@ -30,7 +38,8 @@ void AEnemyThrowable::BeginPlay()
 	Super::BeginPlay();
 
 	SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &AEnemyThrowable::SphereComponentOnBeginOverlap);
-	StaticMeshComponent->SetWorldLocation(SphereComponent->GetComponentLocation());
+	//SphereComponent->SetWorldLocation(StaticMeshComponent->GetComponentLocation());
+	
 	
 }
 
@@ -38,6 +47,7 @@ void AEnemyThrowable::BeginPlay()
 void AEnemyThrowable::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	
 }
 
 void AEnemyThrowable::SphereComponentOnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
@@ -46,20 +56,11 @@ void AEnemyThrowable::SphereComponentOnBeginOverlap(UPrimitiveComponent* Overlap
 	// Code for detecting the player... :)
 	if(OtherActor)
 	{
-		MainCharacter = Cast<AMainCharacter>(OtherActor);
-		if(MainCharacter)
+		AMainCharacter* MainCharacter = Cast<AMainCharacter>(OtherActor);
+		if(OtherActor)
 		{
-			//Throw object towards the general direction of the player... :)
-			FVector TargetLoc = MainCharacter->GetActorLocation();
-			StaticMeshComponent->AddImpulse(TargetLoc * 1000.0f);
+			// Code for damaging player goes here... :)
 		}
 	}
-}
-
-void AEnemyThrowable::AttackSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	// Code for damaging the player... :)
-	
 }
 

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "GameFramework/ProjectileMovementComponent.h"
 #include "EnemyThrowable.generated.h"
 
 UCLASS()
@@ -20,16 +21,12 @@ public:
 	class USphereComponent* SphereComponent;
 
 	/** Static Mesh */
-	UPROPERTY(EditAnywhere, Category = "Mesh")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
 	UStaticMeshComponent* StaticMeshComponent;
 
-	/** Find player */
-	UPROPERTY(VisibleAnywhere, Category = "Player")
-	class AMainCharacter* MainCharacter;
-
-	/** Initialise chase player */
-	UPROPERTY(VisibleAnywhere, Category = "Chase Player")
-	bool bCanChase;
+	/** For moving towards the player */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Projectile")
+	UProjectileMovementComponent* ProjectileMovementComponent;
 
 protected:
 	// Called when the game starts or when spawned
@@ -42,9 +39,6 @@ public:
 	UFUNCTION()
 	virtual void SphereComponentOnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
-
-	UFUNCTION()
-	virtual void AttackSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
+	
 
 };
