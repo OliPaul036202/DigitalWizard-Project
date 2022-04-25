@@ -31,13 +31,6 @@ public:
 	FVector PatrolPoint4;
 
 	class AEnemyController* EnemyController;
-
-	/* Enemy Health */
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Enemy Health")
-	float CurrentHealthEnemy;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy Health")
-	float MaxHealthEnemy;
 	
 
 	/** Aggro & Attack Components */
