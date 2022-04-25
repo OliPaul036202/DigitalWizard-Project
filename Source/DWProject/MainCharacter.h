@@ -27,7 +27,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Gameplay")
 	float CurrentHealth;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Gameplay")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
 	float MaxHealth;
 
 	/** Static names for axis bindings */
