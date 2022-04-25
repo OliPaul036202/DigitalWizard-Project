@@ -31,6 +31,7 @@ public:
 	FVector PatrolPoint4;
 
 	class AEnemyController* EnemyController;
+	
 
 	/** Aggro & Attack Components */
 	UPROPERTY(VisibleAnywhere, Category = "BehaviourTree")
@@ -39,13 +40,7 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "BehaviourTree")
 	USphereComponent* AttackSphere;
 
-	/** Attacking player components */
-	UPROPERTY(VisibleAnywhere, Category = "Attacking")
-	bool bCanAttack;
-
-	UPROPERTY(EditAnywhere, Category = "Attacking")
-	class AEnemyThrowable* EnemyThrowable;
-
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -56,9 +51,6 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	UFUNCTION()
-	void BasicAttack();
 	
 	UFUNCTION()
 	virtual void AggroSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,

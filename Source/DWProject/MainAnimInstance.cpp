@@ -2,7 +2,7 @@
 
 
 #include "MainAnimInstance.h"
-#include "MainCharacter.h"
+#include "Enemy.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
@@ -13,7 +13,7 @@ void UMainAnimInstance::NativeInitializeAnimation()
 	{
 		if(Pawn)
 		{
-			Main = Cast<AMainCharacter>(Pawn);
+			Main = Cast<AEnemy>(Pawn);
 		}
 	}
 }
@@ -33,7 +33,7 @@ void UMainAnimInstance::UpdateAnimationProperties()
 		bIsInAir = Pawn->GetMovementComponent()->IsFalling();
 		if(Main == nullptr)
 		{
-			Main = Cast<AMainCharacter>(Pawn);
+			Main = Cast<AEnemy>(Pawn);
 		}
 
 		if(Main)

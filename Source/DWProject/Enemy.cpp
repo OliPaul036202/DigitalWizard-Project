@@ -8,18 +8,23 @@
 #include "MainCharacter.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Components/SphereComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "Particles/ParticleSystemComponent.h"
 
 // Sets default values
 AEnemy::AEnemy()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	
 	// Set up aggro and attack sphere components.
 	AggroSphere = CreateDefaultSubobject<USphereComponent>(TEXT("AggroSphere"));
 	AggroSphere->SetupAttachment(GetRootComponent());
 	AttackSphere = CreateDefaultSubobject<USphereComponent>(TEXT("AttackSphere"));
 	AttackSphere->SetupAttachment(GetRootComponent());
+
+
 }
 
 // Called when the game starts or when spawned
@@ -40,8 +45,6 @@ void AEnemy::BeginPlay()
 	AttackSphere->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::AttackSphereOverlapBegin);
 	AttackSphere->OnComponentEndOverlap.AddDynamic(this, &AEnemy::AttackSphereOverlapEnd);
 
-	// Initialisation
-	bCanAttack = false;
 }
 
 // Called every frame
@@ -58,22 +61,11 @@ void AEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
-void AEnemy::BasicAttack()
-{
-		if(bCanAttack)
-		{
-			FActorSpawnParameters SpawnInfo;
-			EnemyThrowable = GetWorld()->SpawnActor<AEnemyThrowable>(AEnemyThrowable::StaticClass(), GetActorLocation(), GetActorRotation(), SpawnInfo);
-			bCanAttack = false;
-		}
-}
-
 void AEnemy::AggroSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
                                      UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if(OtherActor)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Player has entered aggro sphere"));
 		AMainCharacter* Main = Cast<AMainCharacter>(OtherActor);
 		if(Main)
 		{
@@ -82,6 +74,7 @@ void AEnemy::AggroSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, A
 				EnemyController = Cast<AEnemyController>(GetController());
 			}
 			EnemyController->GetBlackboard()->SetValueAsObject(TEXT("TargetActor"), Main);
+			EnemyController->GetCharacter()->GetCharacterMovement()->MaxWalkSpeed = 350.0f;
 		}
 	}
 }
@@ -108,7 +101,6 @@ void AEnemy::AttackSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, 
 {
 	if(OtherActor)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Player has entered attack sphere"));
 		AMainCharacter* Main = Cast<AMainCharacter>(OtherActor);
 		if(Main)
 		{
@@ -117,7 +109,6 @@ void AEnemy::AttackSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, 
 				EnemyController = Cast<AEnemyController>(GetController());
 			}
 			EnemyController->GetBlackboard()->SetValueAsBool(TEXT("InAttackRange"), true);
-			bCanAttack = true;
 		}
 	}
 }
