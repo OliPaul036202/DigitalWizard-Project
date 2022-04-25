@@ -24,9 +24,7 @@ AEnemy::AEnemy()
 	AttackSphere = CreateDefaultSubobject<USphereComponent>(TEXT("AttackSphere"));
 	AttackSphere->SetupAttachment(GetRootComponent());
 
-	// Initialising default health
-	MaxHealthEnemy = 100.0f;
-	CurrentHealthEnemy = MaxHealthEnemy;
+
 }
 
 // Called when the game starts or when spawned
