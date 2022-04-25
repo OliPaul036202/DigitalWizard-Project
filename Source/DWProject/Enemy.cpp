@@ -24,9 +24,7 @@ AEnemy::AEnemy()
 	AttackSphere = CreateDefaultSubobject<USphereComponent>(TEXT("AttackSphere"));
 	AttackSphere->SetupAttachment(GetRootComponent());
 
-	// Set up VFX component
-	ExplosionVFX = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ParticleSystem"));
-	ExplosionVFX->SetupAttachment(GetRootComponent());
+
 }
 
 // Called when the game starts or when spawned
@@ -63,22 +61,11 @@ void AEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
-void AEnemy::ExplodeAttack()
-{
-		if(bCanExplode)
-		{
-			//BOOM!
-			ExplosionVFX->ToggleActive();
-			
-		}
-}
-
 void AEnemy::AggroSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
                                      UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if(OtherActor)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Player has entered aggro sphere"));
 		AMainCharacter* Main = Cast<AMainCharacter>(OtherActor);
 		if(Main)
 		{
@@ -87,7 +74,7 @@ void AEnemy::AggroSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, A
 				EnemyController = Cast<AEnemyController>(GetController());
 			}
 			EnemyController->GetBlackboard()->SetValueAsObject(TEXT("TargetActor"), Main);
-			EnemyController->GetCharacter()->GetCharacterMovement()->MaxWalkSpeed = 500.0f;
+			EnemyController->GetCharacter()->GetCharacterMovement()->MaxWalkSpeed = 350.0f;
 		}
 	}
 }
@@ -114,7 +101,6 @@ void AEnemy::AttackSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, 
 {
 	if(OtherActor)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Player has entered attack sphere"));
 		AMainCharacter* Main = Cast<AMainCharacter>(OtherActor);
 		if(Main)
 		{
@@ -123,8 +109,6 @@ void AEnemy::AttackSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, 
 				EnemyController = Cast<AEnemyController>(GetController());
 			}
 			EnemyController->GetBlackboard()->SetValueAsBool(TEXT("InAttackRange"), true);
-			bCanExplode = true;
-			ExplodeAttack();
 		}
 	}
 }

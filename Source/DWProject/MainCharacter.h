@@ -23,9 +23,12 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
 
-	/* The speed our ship moves around the level */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-	float MoveSpeed;
+	/* Player Health */
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Gameplay")
+	float CurrentHealth;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Gameplay")
+	float MaxHealth;
 
 	/** Static names for axis bindings */
 	static const FName MoveForwardBinding;

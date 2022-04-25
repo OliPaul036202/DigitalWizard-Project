@@ -33,5 +33,5 @@ public:
 	class APawn* Pawn;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
-	class AMainCharacter* Main;
+	class AEnemy* Main;
 };

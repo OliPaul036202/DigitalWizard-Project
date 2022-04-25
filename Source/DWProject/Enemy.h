@@ -40,12 +40,6 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "BehaviourTree")
 	USphereComponent* AttackSphere;
 
-	/** Attacking player components and VFX */
-	UPROPERTY(VisibleAnywhere, Category = "Attacking Properties")
-	bool bCanExplode;
-
-	UPROPERTY(EditAnywhere, Category = "VFX")
-	UParticleSystemComponent* ExplosionVFX;
 	
 protected:
 	// Called when the game starts or when spawned
@@ -57,10 +51,6 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	UFUNCTION()
-	void ExplodeAttack();
-	
 	
 	UFUNCTION()
 	virtual void AggroSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,

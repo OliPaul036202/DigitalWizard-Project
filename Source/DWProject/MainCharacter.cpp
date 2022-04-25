@@ -32,9 +32,12 @@ AMainCharacter::AMainCharacter()
 	FollowCamera->bUsePawnControlRotation = false;
 
 	// Movement
-	MoveSpeed = 1000.0f;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f);
+
+	// Health
+	MaxHealth = 100.0f;
+	CurrentHealth = MaxHealth;
 }
 
 // Called when the game starts or when spawned
