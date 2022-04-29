@@ -62,11 +62,5 @@ void UMainAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	}
 }
 
-void UMainAnimInstance::UpdateAnimationProperties()
-{
-	
-	
-}
-
 
 

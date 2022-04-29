@@ -4,37 +4,35 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
-#include "MainAnimInstance.generated.h"
+#include "MainCharacterAnimInstance.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class DWPROJECT_API UMainAnimInstance : public UAnimInstance
+class DWPROJECT_API UMainCharacterAnimInstance : public UAnimInstance
 {
 	GENERATED_BODY()
-
+	
 public:
+
 	virtual void NativeInitializeAnimation() override;
 
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
-
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
 	float MoveSpeed;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
-	bool bIsInAir;
+	bool bIsPlayerInAir;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Movement")
-	bool bIsAccelerating;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
-	bool bIsSprinting;
+	bool bIsPlayerAccelerating;
+	
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
 	class APawn* Pawn;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
-	class AEnemy* Main;
-	
+	class AMainCharacter* Main;
 };

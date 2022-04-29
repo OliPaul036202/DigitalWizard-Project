@@ -113,6 +113,11 @@ void AEnemy::AttackSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, 
 			EnemyController->GetBlackboard()->SetValueAsBool(TEXT("InAttackRange"), true);
 		}
 	}
+
+	if(OtherActor->ActorHasTag("FireBall"))
+	{
+		CurrentHealthEnemy -= 20;
+	}
 }
 
 void AEnemy::AttackSphereOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
