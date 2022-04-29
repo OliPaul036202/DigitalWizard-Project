@@ -17,6 +17,8 @@ class DWPROJECT_API UMainAnimInstance : public UAnimInstance
 public:
 	virtual void NativeInitializeAnimation() override;
 
+	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
+
 	UFUNCTION(BlueprintCallable, Category = "AnimationProperties")
 	void UpdateAnimationProperties();
 
@@ -26,12 +28,16 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
 	bool bIsInAir;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Movement")
 	bool bIsAccelerating;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
+	bool bIsSprinting;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
 	class APawn* Pawn;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
 	class AEnemy* Main;
+	
 };

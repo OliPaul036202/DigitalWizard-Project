@@ -3,6 +3,7 @@
 
 #include "MainAnimInstance.h"
 #include "Enemy.h"
+#include "ExplodeEnemy.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
@@ -18,8 +19,10 @@ void UMainAnimInstance::NativeInitializeAnimation()
 	}
 }
 
-void UMainAnimInstance::UpdateAnimationProperties()
+void UMainAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 {
+	Super::NativeUpdateAnimation(DeltaSeconds);
+
 	if(Pawn == nullptr)
 	{
 		Pawn = TryGetPawnOwner();
@@ -30,7 +33,6 @@ void UMainAnimInstance::UpdateAnimationProperties()
 		FVector Speed = Pawn->GetVelocity();
 		FVector LateralSpeed = FVector(Speed.X, Speed.Y, 0.f);
 		MoveSpeed = LateralSpeed.Size();
-		bIsInAir = Pawn->GetMovementComponent()->IsFalling();
 		if(Main == nullptr)
 		{
 			Main = Cast<AEnemy>(Pawn);
@@ -38,15 +40,32 @@ void UMainAnimInstance::UpdateAnimationProperties()
 
 		if(Main)
 		{
-			if(Main->GetCharacterMovement()->GetCurrentAcceleration().Size() > 0)
+			if(MoveSpeed > 0)
 			{
 				bIsAccelerating = true;
 			}else
 			{
 				bIsAccelerating = false;
 			}
+
+			if(MoveSpeed >= 600)
+			{
+				bIsSprinting = true;
+				bIsAccelerating = false;
+			}
+			else
+			{
+				bIsSprinting = false;
+				bIsAccelerating = true;
+			}
 		}
 	}
+}
+
+void UMainAnimInstance::UpdateAnimationProperties()
+{
+	
+	
 }
 
 
