@@ -72,11 +72,6 @@ void AExplodeEnemy::AttackSphereOverlapBegin(UPrimitiveComponent* OverlappedComp
 			ExplodeAttack();
 		}
 	}
-
-	if(OtherActor->ActorHasTag("FireBall"))
-	{
-		ExplodeAttack();
-	}
 }
 
 
