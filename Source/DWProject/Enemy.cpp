@@ -24,7 +24,9 @@ AEnemy::AEnemy()
 	AttackSphere = CreateDefaultSubobject<USphereComponent>(TEXT("AttackSphere"));
 	AttackSphere->SetupAttachment(GetRootComponent());
 
-
+	// Initialising default health
+	MaxHealthEnemy = 100.0f;
+	CurrentHealthEnemy = MaxHealthEnemy;
 }
 
 // Called when the game starts or when spawned
@@ -110,6 +112,11 @@ void AEnemy::AttackSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, 
 			}
 			EnemyController->GetBlackboard()->SetValueAsBool(TEXT("InAttackRange"), true);
 		}
+	}
+
+	if(OtherActor->ActorHasTag("FireBall"))
+	{
+		CurrentHealthEnemy -= 20;
 	}
 }
 

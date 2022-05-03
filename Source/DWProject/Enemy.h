@@ -40,6 +40,13 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "BehaviourTree")
 	USphereComponent* AttackSphere;
 
+	/* Enemy Health */
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Enemy Health")
+	float CurrentHealthEnemy;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy Health")
+	float MaxHealthEnemy;
+
 	
 protected:
 	// Called when the game starts or when spawned
