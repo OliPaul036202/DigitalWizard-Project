@@ -38,6 +38,16 @@ void UMainAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 			Main = Cast<AEnemy>(Pawn);
 		}
 
+		/** Can attack */
+		if(Main->bCanAttack == true)
+		{
+			bIsAttacking = true;
+		}else
+		{
+			bIsAttacking = false;
+		}
+
+		/** Basic walking and idle */
 		if(Main)
 		{
 			if(MoveSpeed > 0)
@@ -48,7 +58,7 @@ void UMainAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 				bIsAccelerating = false;
 			}
 
-			if(MoveSpeed >= 600)
+			/*if(MoveSpeed >= 600)
 			{
 				bIsSprinting = true;
 				bIsAccelerating = false;
@@ -57,7 +67,13 @@ void UMainAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 			{
 				bIsSprinting = false;
 				bIsAccelerating = true;
-			}
+			}*/
+		}
+
+		/** Enemy death */
+		if(Main->bCanDie == true)
+		{
+			bIsDead = true;
 		}
 	}
 }

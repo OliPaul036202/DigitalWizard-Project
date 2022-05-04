@@ -27,6 +27,10 @@ AEnemy::AEnemy()
 	// Initialising default health
 	MaxHealthEnemy = 100.0f;
 	CurrentHealthEnemy = MaxHealthEnemy;
+
+	// Initialise default attack
+	bCanAttack = false;
+	bCanDie = false;
 }
 
 // Called when the game starts or when spawned
@@ -54,6 +58,11 @@ void AEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if(CurrentHealthEnemy <= 0)
+	{
+		bCanDie = true;
+		EnemyController->GetCharacter()->GetCharacterMovement()->MaxWalkSpeed = 0.0f;
+	}
 }
 
 // Called to bind functionality to input
@@ -111,6 +120,7 @@ void AEnemy::AttackSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, 
 				EnemyController = Cast<AEnemyController>(GetController());
 			}
 			EnemyController->GetBlackboard()->SetValueAsBool(TEXT("InAttackRange"), true);
+			bCanAttack = true;
 		}
 	}
 
@@ -134,6 +144,7 @@ void AEnemy::AttackSphereOverlapEnd(UPrimitiveComponent* OverlappedComponent, AA
 				EnemyController = Cast<AEnemyController>(GetController());
 			}
 			EnemyController->GetBlackboard()->SetValueAsBool(TEXT("InAttackRange"), false);
+			bCanAttack = false;
 		}
 	}
 }

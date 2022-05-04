@@ -40,6 +40,12 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "BehaviourTree")
 	USphereComponent* AttackSphere;
 
+	UPROPERTY(VisibleAnywhere, Category = "Attacking")
+	bool bCanAttack;
+
+	UPROPERTY(VisibleAnywhere, Category = "Dying")
+	bool bCanDie;
+
 	/* Enemy Health */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Enemy Health")
 	float CurrentHealthEnemy;
