@@ -117,6 +117,7 @@ void AEnemy::AttackSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, 
 	if(OtherActor->ActorHasTag("FireBall"))
 	{
 		CurrentHealthEnemy -= 20;
+		OtherActor->Destroy();
 	}
 }
 

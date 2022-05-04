@@ -8,6 +8,7 @@
 #include "MainCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "Engine/World.h"
 
 AExplodeEnemy::AExplodeEnemy()
 {
@@ -69,6 +70,13 @@ void AExplodeEnemy::AttackSphereOverlapBegin(UPrimitiveComponent* OverlappedComp
 			bCanExplode = true;
 			Main->LaunchCharacter(FVector(0.0f, 0.0f, 500.0f), true, false);
 			Main->CurrentHealth -= 20;
+			ExplodeAttack();
+		}
+
+		if(OtherActor->ActorHasTag("Fireball"))
+		{
+			bCanExplode = true;
+			OtherActor->Destroy();
 			ExplodeAttack();
 		}
 	}
