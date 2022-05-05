@@ -40,12 +40,22 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "BehaviourTree")
 	USphereComponent* AttackSphere;
 
+	UPROPERTY(VisibleAnywhere, Category = "Attacking")
+	bool bCanAttack;
+
+	UPROPERTY(VisibleAnywhere, Category = "Dying")
+	bool bCanDie;
+
 	/* Enemy Health */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Enemy Health")
 	float CurrentHealthEnemy;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy Health")
 	float MaxHealthEnemy;
+
+	/** Melee attack */
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Combat")
+	class UBoxComponent* FistCollisionComponent;
 
 	
 protected:
@@ -58,7 +68,8 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
+
+	// Character collision
 	UFUNCTION()
 	virtual void AggroSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
@@ -67,6 +78,7 @@ public:
 	virtual void AggroSphereOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
+	// For exploding enemy
 	UFUNCTION()
 	virtual void AttackSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
@@ -74,5 +86,10 @@ public:
 	UFUNCTION()
 	virtual void AttackSphereOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	// For slime enemy
+	UFUNCTION()
+	virtual void FistBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
 
 };

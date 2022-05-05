@@ -31,6 +31,12 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
 	bool bIsSprinting;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Attacking")
+	bool bIsAttacking;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Dying")
+	bool bIsDead;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
 	class APawn* Pawn;
 
