@@ -7,6 +7,7 @@
 #include "EnemyThrowable.h"
 #include "MainCharacter.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Components/BoxComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -23,6 +24,10 @@ AEnemy::AEnemy()
 	AggroSphere->SetupAttachment(GetRootComponent());
 	AttackSphere = CreateDefaultSubobject<USphereComponent>(TEXT("AttackSphere"));
 	AttackSphere->SetupAttachment(GetRootComponent());
+
+	// Set up melee attack
+	FistCollisionComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("FistCollisionBox"));
+	FistCollisionComponent->SetupAttachment(GetMesh(),FName("RightHandSocket"));
 
 	// Initialising default health
 	MaxHealthEnemy = 100.0f;
@@ -51,6 +56,9 @@ void AEnemy::BeginPlay()
 	AttackSphere->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::AttackSphereOverlapBegin);
 	AttackSphere->OnComponentEndOverlap.AddDynamic(this, &AEnemy::AttackSphereOverlapEnd);
 
+	// Bind overlap functions to the attacking box
+	FistCollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::FistBoxBeginOverlap);
+
 }
 
 // Called every frame
@@ -61,6 +69,7 @@ void AEnemy::Tick(float DeltaTime)
 	if(CurrentHealthEnemy <= 0)
 	{
 		bCanDie = true;
+		bCanAttack = false;
 		EnemyController->GetCharacter()->GetCharacterMovement()->MaxWalkSpeed = 0.0f;
 	}
 }
@@ -145,6 +154,24 @@ void AEnemy::AttackSphereOverlapEnd(UPrimitiveComponent* OverlappedComponent, AA
 			}
 			EnemyController->GetBlackboard()->SetValueAsBool(TEXT("InAttackRange"), false);
 			bCanAttack = false;
+		}
+	}
+}
+
+void AEnemy::FistBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+									 UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if(OtherActor)
+	{
+		AMainCharacter* Main = Cast<AMainCharacter>(OtherActor);
+		if(Main)
+		{
+			if(bCanAttack)
+			{
+				FVector MainForward = Main->GetActorForwardVector() * -1000;
+				Main->LaunchCharacter(MainForward, true, false);
+				Main->CurrentHealth -= 10;
+			}
 		}
 	}
 }
