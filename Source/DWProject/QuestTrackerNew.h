@@ -17,11 +17,21 @@ class DWPROJECT_API UQuestTrackerNew : public UUserWidget
 protected:
 	virtual void NativeConstruct() override;
 
+	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
+
 	/** Bind Widgets */
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	class UTextBlock* QuestTitle;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UTextBlock* QuestDescription;
+
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stage Check")
+	bool bIsFirstStage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy Kill Count")
+	int enemyKillCount;
 	
 };
