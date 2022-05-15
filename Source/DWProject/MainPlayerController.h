@@ -22,7 +22,7 @@ public:
 
 	/** Variable to hold the widget after creating it */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
-	UUserWidget* HUDOverlay;	
+	UUserWidget* HUDOverlay;
 	
 protected:
 	
