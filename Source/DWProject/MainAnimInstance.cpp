@@ -53,21 +53,19 @@ void UMainAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 			if(MoveSpeed > 0)
 			{
 				bIsAccelerating = true;
+				if(MoveSpeed >= 600)
+				{
+					bIsAccelerating = false;
+					bIsSprinting = true;
+				}else
+				{
+					bIsSprinting = false;
+					bIsAccelerating = true;
+				}
 			}else
 			{
 				bIsAccelerating = false;
 			}
-
-			/*if(MoveSpeed >= 600)
-			{
-				bIsSprinting = true;
-				bIsAccelerating = false;
-			}
-			else
-			{
-				bIsSprinting = false;
-				bIsAccelerating = true;
-			}*/
 		}
 
 		/** Enemy death */
