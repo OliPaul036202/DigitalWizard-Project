@@ -5,7 +5,9 @@
 #include "EnemyController.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "MainCharacter.h"
+#include "Particles/ParticleSystem.h"
 
 
 void AMimicEnemy::BeginPlay()
@@ -16,11 +18,28 @@ void AMimicEnemy::BeginPlay()
 	CanHop = false;
 }
 
+void AMimicEnemy::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	if(CurrentHealthEnemy <= 0)
+	{
+		bCanDie = true;
+		EnemyController->GetCharacter()->GetCharacterMovement()->MaxWalkSpeed = 0.0f;
+		EnemyController->GetCharacter()->GetCharacterMovement()->RotationRate = FRotator(0.0f,0.0,0.0f);
+		UGameplayStatics::SpawnEmitterAtLocation(this, MimicDeathVFX, GetActorLocation(), GetActorRotation(),true);
+		Destroy();
+	}
+}
+
 void AMimicEnemy::Hop()
 {
 	if(CanHop)
 	{
-		this->LaunchCharacter(FVector(0.0f, 0.0f,400.0f) + GetActorForwardVector() * 800.0f, true,false);
+		if(!bCanDie)
+		{
+			this->LaunchCharacter(FVector(0.0f, 0.0f,400.0f) + GetActorForwardVector() * 800.0f, true,false);
+		}
 	}
 }
 

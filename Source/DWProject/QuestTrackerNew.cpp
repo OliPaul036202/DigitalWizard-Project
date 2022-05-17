@@ -21,7 +21,7 @@ void UQuestTrackerNew::NativeConstruct()
 
 	if(QuestDescription)
 	{
-		QuestDescription->SetText(FText::FromString(TEXT("You knew these bars could not hold you for long... You need to escape this foul place!")));
+		QuestDescription->SetText(FText::FromString(TEXT("Your Ex Has Put the World In a Time Loop! Escape and Defeat your Ex to restore time!")));
 	}
 }
 

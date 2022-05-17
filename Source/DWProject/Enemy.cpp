@@ -11,6 +11,7 @@
 #include "Components/SphereComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "TimerManager.h"
 #include "Particles/ParticleSystemComponent.h"
 
 // Sets default values
@@ -68,9 +69,11 @@ void AEnemy::Tick(float DeltaTime)
 
 	if(CurrentHealthEnemy <= 0)
 	{
+		StartDeathTimer();
 		bCanDie = true;
 		bCanAttack = false;
 		EnemyController->GetCharacter()->GetCharacterMovement()->MaxWalkSpeed = 0.0f;
+		EnemyController->GetCharacter()->GetCharacterMovement()->RotationRate = FRotator(0.0f,0.0,0.0f);
 	}
 }
 
@@ -79,6 +82,18 @@ void AEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+void AEnemy::EnemyDeath()
+{
+	UGameplayStatics::SpawnEmitterAtLocation(this, SlimeDeathVFX, GetActorLocation(), GetActorRotation(),true);
+	this->Destroy();
+}
+
+void AEnemy::StartDeathTimer()
+{
+	FTimerHandle DeathTimer;
+	GetWorld()->GetTimerManager().SetTimer(DeathTimer, this, &AEnemy::EnemyDeath, 0.0f, false, 3.5f);
 }
 
 void AEnemy::AggroSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,

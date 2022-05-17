@@ -49,7 +49,7 @@ void AExplodeEnemy::AggroSphereOverlapBegin(UPrimitiveComponent* OverlappedCompo
 				EnemyController = Cast<AEnemyController>(GetController());
 			}
 			EnemyController->GetBlackboard()->SetValueAsObject(TEXT("TargetActor"), Main);
-			EnemyController->GetCharacter()->GetCharacterMovement()->MaxWalkSpeed = 600.0f;
+			EnemyController->GetCharacter()->GetCharacterMovement()->MaxWalkSpeed = 700.0f;
 		}
 	}
 }
