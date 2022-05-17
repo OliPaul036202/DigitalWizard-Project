@@ -20,14 +20,18 @@ public:
 	FTimerHandle HopTimer;
 
 	bool CanHop;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VFX")
+	UParticleSystem* MimicDeathVFX;
 	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	
 public:
 
+	virtual void Tick(float DeltaTime) override;
+	
 	UFUNCTION()
 	void Hop();
 	

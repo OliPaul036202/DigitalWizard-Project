@@ -57,6 +57,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Combat")
 	class UBoxComponent* FistCollisionComponent;
 
+	UPROPERTY(EditAnywhere, Category = "Enemy Death Sound")
+	USoundBase* SB_Death;
+
 	
 protected:
 	// Called when the game starts or when spawned
@@ -68,6 +71,15 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VFX")
+	UParticleSystem* SlimeDeathVFX;
+	
+	UFUNCTION()
+	void EnemyDeath();
+
+	UFUNCTION()
+	void StartDeathTimer();
 
 	// Character collision
 	UFUNCTION()
